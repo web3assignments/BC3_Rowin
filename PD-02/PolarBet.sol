@@ -1,15 +1,43 @@
 pragma solidity 0.5.9;
 
-contract PolarBet {
+interface Controller {
+    function checkIfBalanceIsEnough(uint bet) external returns (bool);
+}
 
-    uint storedBet;
+contract Dealer is Controller {
+    uint balance;
+    
+    constructor() public {
+        balance = 10; 
+    }
+    
+    function addBet(uint bet) public {
+        if (checkIfBalanceIsEnough(bet)) {
+            balance += bet; 
+        }
+    }
+    
+    function returnBetWithProfit(uint bet) public {
+        balance -= bet * 2; 
+    }
+    
+    function showBalance() public view returns (uint) {
+        return balance; 
+    }
+    
+    function checkIfBalanceIsEnough(uint bet) public returns (bool) {
+        return balance >= bet; 
+    }
+}
 
-    function setBet(uint NewBet) public {
-        storedBet = NewBet;
+contract PolarBet is Dealer {
+    uint diceResult; 
+    
+    function setDiceResult(uint _diceResult) public {
+        diceResult = _diceResult;
     }
 
-    function getBet() public view returns (uint) {
-        return storedBet;
+    function getDiceResult() public view returns (uint) {
+        return diceResult;
     }
-
 }
