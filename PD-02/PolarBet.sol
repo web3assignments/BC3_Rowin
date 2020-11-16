@@ -1,23 +1,25 @@
 pragma solidity 0.5.9;
 
-interface Controller {
-    function checkIfBalanceIsEnough(uint bet) external returns (bool);
-}
-
-contract Dealer is Controller {
+contract Dealer  {
     uint balance;
+    uint bet;
     
     constructor() public {
         balance = 10; 
     }
     
-    function addBet(uint bet) public {
-        if (checkIfBalanceIsEnough(bet)) {
-            balance += bet; 
+    function addBet(uint _bet) public {
+        if (checkIfBalanceIsEnough(_bet)) {
+            bet = _bet;
+            balance += bet;
         }
     }
     
-    function returnBetWithProfit(uint bet) public {
+    function returnBet() public {
+        balance -= bet; 
+    }
+    
+    function returnBetWithProfit() public {
         balance -= bet * 2; 
     }
     
@@ -25,19 +27,38 @@ contract Dealer is Controller {
         return balance; 
     }
     
-    function checkIfBalanceIsEnough(uint bet) public returns (bool) {
-        return balance >= bet; 
+    function checkIfBalanceIsEnough(uint _bet) private view returns (bool) {
+        return balance >= _bet; 
     }
 }
 
 contract PolarBet is Dealer {
-    uint diceResult; 
+    uint dealerDiceResult;
+    uint userDiceResult; 
     
-    function setDiceResult(uint _diceResult) public {
-        diceResult = _diceResult;
+    function getRandomNumber() private view returns (uint8) {
+        return uint8(uint256(keccak256(abi.encodePacked(block.timestamp, block.coinbase, block.difficulty)))%6) + 1;
+    }
+    
+    function rollDice() public {
+        dealerDiceResult = getRandomNumber();
+        userDiceResult = getRandomNumber();
     }
 
-    function getDiceResult() public view returns (uint) {
-        return diceResult;
+    function getDiceResultOfDealer() public view returns (uint) {
+        return dealerDiceResult;
+    }
+    
+    function getDiceResultOfUser() public view returns (uint) {
+        return userDiceResult;
+    }
+    
+    function winLose() public {
+        if (dealerDiceResult < userDiceResult) {
+            returnBetWithProfit();
+        }  else {
+            returnBet();
+        }
+        bet = 0;
     }
 }
