@@ -3,9 +3,13 @@ import { AddBet } from "../components/AddBet";
 import { DealerBalance } from "../components/DealerBalance";
 import { DealerDiceResult } from "../components/DealerDiceResult";
 import { PayOut } from "../components/PayOut";
-import { SetUserDiceResult, UserDiceResult } from "../components/PlayerDiceResult";
+import {
+  SetUserDiceResult,
+  UserDiceResult,
+} from "../components/PlayerDiceResult";
 import { QueryId } from "../components/QueryId";
 import { RollDice } from "../components/RollDice";
+import { RandomResult } from "../components/RandomResult";
 
 declare global {
   interface Window {
@@ -22,6 +26,7 @@ export const Home = () => {
   const [dealerResult, setDealerResult] = useState<number>(0);
   const [userResult, setUserResult] = useState<number>(0);
   const [queryId, setQueryId] = useState<string>();
+  const [OracleResult, setOracleResult] = useState<string>("");
 
   useEffect(() => {
     getBalance();
@@ -44,7 +49,12 @@ export const Home = () => {
 
   const setsUserDiceResult = async () => {
     await SetUserDiceResult();
-    console.log("Your dice result is set")
+    console.log("Your dice result is set");
+  };
+
+  const getRandomResult = async () => {
+    const randomResult = await RandomResult();
+    setOracleResult(randomResult);
   };
 
   const getQueryId = async () => {
@@ -53,14 +63,10 @@ export const Home = () => {
     setQueryId(id);
   };
 
-  
-
   return (
     <main className="App">
       <h2>Dealer balance = {balance}</h2>
-      <button onClick={() => getBalance()}>
-          update balance
-        </button>
+      <button onClick={() => getBalance()}>update balance</button>
 
       <div>
         <h2>Set your bet:</h2>
@@ -84,12 +90,15 @@ export const Home = () => {
         <button onClick={() => getUserDiceResult()}>
           show your dice result
         </button>
+
+        <p>Random result from oracle = {OracleResult}</p>
+        <button onClick={() => getRandomResult()}>show the result</button>
+
         <p>Query ID = {queryId}</p>
         <button onClick={() => getQueryId()}>show query id</button>
       </div>
 
       <button onClick={() => PayOut()}>pay out</button>
-
     </main>
   );
 };
