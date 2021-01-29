@@ -125,4 +125,8 @@ contract PolarBetV2 is DealerV2 {
         userDiceResult = 0;
         bet = 0; 
     }
+
+    function closeContract() public { 
+        selfdestruct(msg.sender); 
+ }
 }
