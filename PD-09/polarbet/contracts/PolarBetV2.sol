@@ -1,4 +1,9 @@
 pragma solidity ^0.6.0;
+
+/// @title PolarBet
+/// @author R. van Amsterdam
+/// @notice This contract is for testing purposes only
+
 import "./provableAPI.sol";
 import "@openzeppelin/upgrades-core/contracts/Initializable.sol";
 
@@ -72,7 +77,8 @@ contract PolarBetV2 is DealerV2 {
         provable_setProof(proofType_Ledger); 
     }   
     
-    
+    /// @notice Returns random result from oracle.
+    /// @dev Set random bytes as variable from Provable oracle.
     function __callback(bytes32  _queryId,string memory _result,bytes memory _proof ) override public {
         require(msg.sender == provable_cbAddress());
         if (provable_randomDS_proofVerify__returnCode(_queryId,_result,_proof)== 0)
