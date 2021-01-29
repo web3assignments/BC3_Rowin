@@ -10,5 +10,11 @@ Put the results here
 ## Natspec
 ![Alt text](/PD-09/natspec.png?raw=true "Optional Title")
 
+## Selfdestruct
+Transferred eth to contract
+![Alt text](/PD-09/eth-to-contract.png?raw=true "Optional Title")
+Eth returned to msg.sender after selfdestruct
+![Alt text](/PD-09/eth-returned-after-selfdestruct.png?raw=true "Optional Title")
+
 ## Verified contract
 ![Alt text](/PD-09/verified-contract.png?raw=true "Optional Title")
