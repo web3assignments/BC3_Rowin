@@ -7,5 +7,8 @@ Put the results here
 ![Alt text](/PD-09/etherscan1.png?raw=true "Optional Title")
 ![Alt text](/PD-09/etherscan2.png?raw=true "Optional Title")
 
+## Natspec
+![Alt text](/PD-09/natspec.png?raw=true "Optional Title")
+
 ## Verified contract
 ![Alt text](/PD-09/verified-contract.png?raw=true "Optional Title")
